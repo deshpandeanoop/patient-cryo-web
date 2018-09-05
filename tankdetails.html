@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://0.0.0.0:8081/tanks/details -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+            <!--<base href="/tanks/details/">--><base href=".">
+    <link rel="icon" href="http://0.0.0.0:8081/s/img/favicon-cmpl.png">
+
+    <title>Cryo Master - Tank Deatils </title>
+
+    <!-- Bootstrap CSS, with themes (if any) -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="/s/lib/bootswatch-4.1.0-1/sketchy/bootstrap.min.css" rel="stylesheet"> -->
+
+    <link href="./css/datatables.min.css" rel="stylesheet">
+    <link href="./css/select2.min.css" rel="stylesheet">
+    <link href="./css/animate.min.css" rel="stylesheet">
+    <link href="./css/fontawesome-all.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/app.css" rel="stylesheet">
+    <link href="./css/datatables.bootstrap4.css" rel="stylesheet">
+    <link href="./css/signature.css" rel="stylesheet">
+      <style>
+    .row-deleted {
+      text-decoration: line-through;
+      /* background-color: #BDBDBD; */     }
+    /* label {
+      font-weight: normal;
+    } */
+  </style>
+  <style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style></head>
+
+  <body>
+    <!-- Begin page content -->
+      <main role="main" class="container-fluid">
+    <div class="row mt-2">
+      <div class="col-sm-8">
+         <h5 id="tankHeaderId" class="ml-3 mb-3">
+           <script id="tankHeader-template" type="text/x-handlebars-template">
+             {{selectedTank.name}} :: {{selectedTank.room}} :: {{selectedTank.type}} :: {{selectedTank.label}}
+           </script>
+        </h5>
+  <div class="ml-3 mr-3 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="text-strong">Search</h6>
+        <!--h6 class="card-subtitle mb-2 text-muted">Search for cycles here</h6-->
+        <form>
+          <div class="form-row mb-3">
+            <div class="col">
+              <label for="input-name">Reg. No.</label>
+              <input type="text" class="form-control form-control-sm" id="input-name" placeholder="">
+            </div>
+			<div class="col">
+              <label for="input-husband">Patient <span id="input-husband-error" class="text-danger"></span></label>
+              <input type="text" class="form-control form-control-sm" id="input-wife-nric" placeholder="Search: Name, NRIC, HRN" autofocus="">
+            </div>
+
+            <div class="col">
+              <label for="input-doctor">Doctor</label>
+              <select id="input-doctor" class="form-control form-control-sm">
+                <option selected="">All</option>
+                <option>Dr Jeremy Tan</option>
+                <option>Dr Nicholas Tay</option>
+              </select>
+            </div>
+            <div class="col">
+              <label for="input-freeze">Date of Freeze</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" id="input-freeze" value="15/04/2018" placeholder="">
+                <div class="input-group-append">
+                  <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <label for="input-search">&nbsp;</label>
+              <div><button type="button" class="btn btn-primary btn-sm">Search</button></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><div class="dataTables_scroll"><div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;"><div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1219px; padding-right: 0px;"><table class="table table-hover table-sm dataTable" style="width: 1219px; margin-left: 0px;" role="grid"><thead>
+    <tr role="row"><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 73.8125px;">Lvl</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 240.812px;">Name</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 171.812px;">HRN No.</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 229.812px;">Doctor</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 262.812px;">Date of Freeze</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 94.8125px;">Can</th></tr>
+  </thead></table></div></div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; height: calc(100vh - 400px); width: 100%;"><table id="main-table" class="table table-hover table-sm dataTable" style="width: 100%;" role="grid" aria-describedby="main-table_info"><thead>
+    <tr role="row" style="height: 0px;"><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 73.8125px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Lvl</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 240.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Name</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 171.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">HRN No.</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 229.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Doctor</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 262.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Date of Freeze</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 94.8125px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Can</div></th></tr>
+  </thead><tfoot>
+    <tr style="height: 0px;"><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 89.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Lvl</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 256.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Name</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 187.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">HRN No.</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 245.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Doctor</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 278.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Date of Freeze</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 110.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Can</div></th></tr>
+  </tfoot>
+
+  <tbody>
+      <tr class="group group-start"><td colspan="6">Can 1</td></tr><tr class="selected odd" role="row">
+      <td>1</td>
+      <td>John Wong</td>
+      <td>S2234567B</td>
+      <td>Dr Jeremy Tan</td>
+      <td>01/04/2018</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="even">
+      <td>2</td>
+      <td>Mohamed Azri</td>
+      <td>G1217882A</td>
+      <td>Dr Nicholas Tay</td>
+      <td>12/04/2018</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="odd">
+      <td>3</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="even">
+      <td>4</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="odd">
+      <td>5</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="even">
+      <td>6</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="odd">
+      <td>7</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="even">
+      <td>8</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="odd">
+      <td>9</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="even">
+      <td>10</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="odd">
+      <td>11</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="even">
+      <td>12</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="odd">
+      <td>13</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="even">
+      <td>14</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr role="row" class="odd">
+      <td>15</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 1</td>
+    </tr><tr class="group group-start"><td colspan="6">Can 2</td></tr><tr role="row" class="even">
+      <td>1</td>
+      <td>Linden Surendra</td>
+      <td>S0123475B</td>
+      <td>Dr Roy Ezra</td>
+      <td>05/04/2018</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="odd">
+      <td>2</td>
+      <td>Roddy Jitendra</td>
+      <td>G1214313A</td>
+      <td>Dr Nicholas Tay</td>
+      <td>08/04/2018</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="even">
+      <td>4</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="odd">
+      <td>5</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="even">
+      <td>6</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="odd">
+      <td>7</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="even">
+      <td>8</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="odd">
+      <td>9</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="even">
+      <td>10</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="odd">
+      <td>11</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="even">
+      <td>12</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="odd">
+      <td>13</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="even">
+      <td>14</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="odd">
+      <td>15</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 2</td>
+    </tr><tr role="row" class="even">
+      <td>3</td>
+      <td>Warren Wright</td>
+      <td>G4567890A</td>
+      <td>Dr Nicholas Tay</td>
+      <td>08/04/2018</td>
+      <td>Can 2</td>
+    </tr><tr class="group group-start"><td colspan="6">Can 3</td></tr><tr role="row" class="odd">
+      <td>1</td>
+      <td>Mahavir Cliff</td>
+      <td>S2234567B</td>
+      <td>Dr Jeremy Tan</td>
+      <td>20/02/2018</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="even">
+      <td>2</td>
+      <td>Georg Taylor</td>
+      <td>G1459882A</td>
+      <td>Dr Jan Roddy</td>
+      <td>01/03/2018</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="odd">
+      <td>3</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="even">
+      <td>4</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="odd">
+      <td>5</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="even">
+      <td>6</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="odd">
+      <td>7</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="even">
+      <td>8</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="odd">
+      <td>9</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="even">
+      <td>10</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="odd">
+      <td>11</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="even">
+      <td>12</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="odd">
+      <td>13</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="even">
+      <td>14</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr><tr role="row" class="odd">
+      <td>15</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td>Can 3</td>
+    </tr></tbody>
+
+  </table></div><div class="dataTables_scrollFoot" style="overflow: hidden; border: 0px; width: 100%;"><div class="dataTables_scrollFootInner" style="width: 1219px; padding-right: 0px;"><table class="table table-hover table-sm dataTable" style="width: 1219px; margin-left: 0px;" role="grid"><tfoot>
+    <tr><th rowspan="1" colspan="1" style="width: 89.625px;">Lvl</th><th rowspan="1" colspan="1" style="width: 256.625px;">Name</th><th rowspan="1" colspan="1" style="width: 187.625px;">HRN No.</th><th rowspan="1" colspan="1" style="width: 245.625px;">Doctor</th><th rowspan="1" colspan="1" style="width: 278.625px;">Date of Freeze</th><th rowspan="1" colspan="1" style="width: 110.625px;">Can</th></tr>
+  </tfoot></table></div></div></div></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="main-table_info" role="status" aria-live="polite">Showing 1 to 45 of 45 entries</div></div><div class="col-sm-12 col-md-7"></div></div></div>
+</div>
+      <div class="col-sm-4">    <div class="text-right">
+        <!--button type="button" class="btn btn-outline-secondary btn-sm" id="btn-refresh"><i class="fas fa-sync"></i> Refresh</button-->
+      </div>
+  <div id="main-card" class="card shadow-2dp mt-3 mb-3 hidden" style="display: block;">
+    <div id="main-card-body" class="card-body">
+    <div class="ribbon blue"><span>Cleared</span></div>
+    <div class="text-strong">Can 1 - Lvl 1</div>
+    <div class="text-right">
+      <small>
+        <div>Created: Jane Tan at 13 Apr 2018 11:22:33 &nbsp; </div>
+      </small>
+    </div>
+    <hr>
+    <table class="table table-hover table-sm table-borderless mt-2">
+    <tbody>
+      <tr>
+        <td class="text-strong">Reg No</td>
+        <td>61234567890</td>
+      </tr>
+      <tr>
+        <td class="text-strong">HRN No.</td>
+        <td>S2234567B</td>
+      </tr>
+      <tr>
+        <td class="text-strong" width="40%">Name</td>
+        <td width="60%">John Wong</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Doctor</td>
+        <td>Dr Jeremy Tan</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Date of Freeze</td>
+        <td>01/04/2018</td>
+      </tr>
+      <tr>
+        <td class="text-strong"># Straw(s) / vials(v)</td>
+        <td>1s</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Goblet</td>
+        <td>G001</td>
+      </tr>
+      <tr>
+        <td class="text-strong">No. of Embryos</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Remarks</td>
+        <td class="text-multiline">Demo</td>
+      </tr>
+    </tbody>
+    </table>
+
+    <div class="text-right">
+      <!--button class="btn btn-secondary btn-sm" data-action data-delete>Case Details</button-->
+      <!--button class="btn btn-primary btn-sm" data-action data-edit>Edit</button-->
+    </div>
+  </div>
+  </div>
+
+  <script id="record-view-template" type="text/x-handlebars-template">
+    <div class="ribbon blue"><span>Cleared</span></div>
+    <div class="text-strong">Can 1 - Lvl 1</div>
+    <div class="text-right">
+      <small>
+        <div>Created: Jane Tan at 13 Apr 2018 11:22:33 &nbsp; </div>
+      </small>
+    </div>
+    <hr>
+    <table class="table table-hover table-sm table-borderless mt-2">
+    <tbody>
+      <tr>
+        <td class="text-strong">Reg No</td>
+        <td>61234567890</td>
+      </tr>
+      <tr>
+        <td class="text-strong">HRN No.</td>
+        <td>S2234567B</td>
+      </tr>
+      <tr>
+        <td class="text-strong" width="40%">Name</td>
+        <td width="60%">John Wong</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Doctor</td>
+        <td>Dr Jeremy Tan</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Date of Freeze</td>
+        <td>01/04/2018</td>
+      </tr>
+      <tr>
+        <td class="text-strong"># Straw(s) / vials(v)</td>
+        <td>1s</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Goblet</td>
+        <td>G001</td>
+      </tr>
+      <tr>
+        <td class="text-strong">No. of Embryos</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td class="text-strong">Remarks</td>
+        <td class="text-multiline">Demo</td>
+      </tr>
+    </tbody>
+    </table>
+    <div class="text-right">
+    </div>
+  </script>
+
+  <script id="record-edit-template" type="text/x-handlebars-template">
+    <p class="card-text text-strong">
+      {{#if id}}
+        <i class="fas fa-edit"></i> Edit Storage
+      {{else}}
+      	<i class="fas fa-plus"></i> New Storage
+      {{/if}}
+    </p>
+    <hr>
+    <div class="card-text text-right text-muted"><small>* denotes mandatory fields</small></div>
+    <form autocomplete="off">
+      <input type="hidden" name="id" value="{{ id }}">
+      <input type="hidden" name="version" value="{{ version }}">
+      <div class="form-group">
+        <label for="input-name">* Name <span id="input-name-error" class="text-danger"></span></label>
+        <input type="text" class="form-control form-control-sm" id="input-name" name="name" placeholder="E.g. John Doe" value="{{ name }}">
+        <small id="input-name-help" class="form-text text-muted">Must be unique</small>
+      </div>
+      <div class="form-group">
+        <label for="input-hrn">HRN No.</label>
+        <input type="text" class="form-control form-control-sm" id="input-hrn" name="hrn" placeholder="E.g. S1234567A" value="{{ hrn }}">
+      </div>
+      <div class="form-group">
+        <label for="input-hrn">Reg No.</label>
+        <input type="text" class="form-control form-control-sm" id="input-reg" name="reg" placeholder="" value="{{ reg }}">
+      </div>
+      <div class="form-group">
+        <label for="input-doctor">* Doctor <span id="input-doctor-error" class="text-danger"></span></label>
+        <select id="input-doctor" class="form-control form-control-sm">
+          <option selected>Choose Doctor</option>
+          <option>Dr Jeremy Tan</option>
+          <option>Dr Nicholas Tay</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="input-straw"># Straw(s) / vials(s)</label>
+        <input type="text" class="form-control form-control-sm" id="input-straw" name="straw" placeholder="" value="{{ straw }}">
+      </div>
+      <div class="form-group">
+        <label for="input-goblet">Goblet</label>
+        <input type="text" class="form-control form-control-sm" id="input-goblet" name="straw" placeholder="" value="{{ goblet }}">
+      </div>
+      <div class="form-group form-row">
+        <label for="input-freeze">Date of Freeze</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" id="input-freeze" value="dd/mm/yyyy" placeholder="">
+          <div class="input-group-append">
+            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-row">
+        <label for="input-thaw">Date of Thaw</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" id="input-thaw" value="dd/mm/yyyy" placeholder="">
+          <div class="input-group-append">
+            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="input-bal">Bal</label>
+        <input type="text" class="form-control form-control-sm" id="input-bal" name="bal" placeholder="" value="{{ bal }}">
+      </div>
+      <div class="form-group">
+        <label for="input-remarks">Remarks <span id="input-remarks-error" class="text-danger"></span></label>
+        <textarea class="form-control form-control-sm" id="input-remarks" name="remarks" rows="3">{{ remarks }}</textarea>
+      </div>
+      <hr>
+      <div class="text-right">
+        <button class="btn btn-outline-secondary btn-sm" data-action data-cancel>Cancel</button>
+        <button class="btn btn-primary btn-sm" data-action data-save>Save</button>
+      </div>
+    </form>
+  </script>
+
+  <script id="prompt-delete-body-template" type="text/x-handlebars-template">
+    <p>Please confirm that you would like to delete the following record.</p>
+    <p>
+      <div class="text-strong">Can 1 - Lvl 1</div>
+      <div>Patient: S2234567B - John Wong</div>
+    </p>
+  </script>
+  </div>
+    </div>
+  </main>
+
+        <div class="modal fade" id="main-modal" tabindex="-1" role="dialog"></div>
+<script id="main-modal-template" type="text/x-handlebars-template">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">{{{ title }}}</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">{{{ body }}}</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-sm" data-confirm>Proceed</button>
+      </div>
+    </div>
+  </div>
+</script>
+
+    <footer class="footer text-right no-print">
+      <div class="container-fluid">
+        <span class="text-muted">
+          © <a href="http://www.connectedmachines.com/" class="text-muted" target="cmpl">Connected Machines</a>
+        </span>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/datatables.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/select2.min.js"></script>
+    <script src="./js/handlebars.min.js"></script>
+    <script src="./js/h.min.js"></script>
+    <script src="./js/underscore-min.js"></script>
+    <script src="./js/moment.min.js"></script>
+    <script src="./js/numbro.min.js"></script>
+    <script src="./js/jquery.form.min.js"></script>
+    <script src="./js/jquery.inputmask.bundle.min.js"></script>
+	<script src="./js/inputmask.date.extensions.min.js"></script>
+    <script src="./js/inputmask.numeric.extensions.min.js"></script>
+    <script src="./js/signature_pad.min.js"></script>
+    <script src="./js/signature.js"></script>
+    <script src="./js/cmpl.js"></script>
+    <script src="./js/tankdetails.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        H.registerHelpers(Handlebars); // Register just-handlebars-helpers
+      });
+    </script>
+      <script>
+    'use strict';
+
+    const initInputMasks = () => {
+      new Inputmask({
+        alias: 'datetime',
+        inputFormat: 'dd/mm/yyyy',
+        clearMaskOnLostFocus: false,
+        positionCaretOnClick: 'none'
+      }).mask($('#input-start'));
+    };
+
+    const initPage = () => {
+      $('#main-table').DataTable({
+        filter: false,
+        paging: false,
+        ordering: false,
+        scrollY: 'calc(100vh - 400px)',
+        rowGroup: {
+          dataSrc: 5
+        }
+      });
+
+      let recordViewTemplate = Handlebars.compile( $('#record-view-template').html() );
+      let recordEditTemplate = Handlebars.compile( $('#record-edit-template').html() );
+      let mainModalTemplate  = Handlebars.compile( $('#main-modal-template').html()  );
+      let promptDeleteBodyTemplate = Handlebars.compile( $('#prompt-delete-body-template').html() );
+      let $mainCard     = $('#main-card');
+      let $mainCardBody = $('#main-card-body');
+      let $btnAdd       = $('#btn-add');
+      let $mainModal    = $('#main-modal');
+
+      $mainCardBody.html(recordViewTemplate({}));
+      $mainCard.show();
+
+      $btnAdd.on('click', (e) => {
+        console.log(new Date() + " btn-add");
+        e.preventDefault();
+        $mainCardBody.html(recordEditTemplate({}));
+        $mainCardBody.autogrow();
+        initInputMasks();
+        $mainCard.show();
+        $('#input-case').focus();
+      });
+
+      $mainCard.on('click', 'button[data-edit]', (e) => {
+        console.log(new Date() + " data-edit");
+        e.preventDefault();
+        $mainCardBody.html(recordEditTemplate({ 'wife': 'S1234567A - Jane Tan', 'husband': 'S2234567B - John Wong' }));
+        $mainCardBody.autogrow();
+        initInputMasks();
+        $('#input-case').focus();
+      });
+
+      $mainCard.on('click', 'button[data-delete]', (e) => {
+        console.log(new Date() + " data-delete");
+        e.preventDefault();
+        $mainModal.html(
+          mainModalTemplate({
+            title: "Confirm Delete?",
+            body: promptDeleteBodyTemplate({})
+          })
+        );
+        $mainModal.modal('show');
+      });
+
+      $mainCard.on('click', 'button[data-edit]', (e) => {
+        console.log(new Date() + " data-edit");
+        e.preventDefault();
+        $mainCardBody.html(recordEditTemplate({id: 1}));
+        $mainCardBody.autogrow();
+        initInputMasks();
+        $('#input-code').focus();
+      });
+
+      $mainCard.on('click', 'button[data-cancel]', (e) => {
+        console.log(new Date() + " data-cancel");
+        e.preventDefault();
+        $mainCardBody.html(recordViewTemplate());
+      });
+    };
+
+    $(function() {
+      initPage();
+    });
+
+    $(document).ready(()=>onLoad());
+  </script>
+
+
+</body></html>

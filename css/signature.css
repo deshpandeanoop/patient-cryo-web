@@ -1,0 +1,44 @@
+<style>
+  .modal-signature {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 1040;
+  }
+
+  .modal-container{
+    width: 560px;
+    height: 240px;
+    z-index: 1050;
+    margin:auto;
+    margin-top:15%;
+    background:white;
+  }
+
+  .m-signature-pad {
+    font-size: 5px;
+    width: 480px;
+    height: 120px;
+    border: 1px solid #e8e8e8;
+    background-color: #fff;
+  }
+
+  .m-signature-pad--body {
+    text-align: center;
+    padding : 20px;
+  }
+
+  .m-signature-pad--body canvas {
+    width: 480px;
+    height: 120px;
+    border: 1px solid #e8e8e8;
+  }
+
+  .m-signature-pad--btn-group {
+    text-align: right;
+    padding: 20px;
+  }
+</style>
