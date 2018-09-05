@@ -4,12 +4,19 @@ function loadTankDetails()
   renderCryoMaster(JSON.parse(sessionStorage.getItem("response")));
   if(null != sessionStorage.getItem("searchCriteria"))
   {
-    alert("Deshpande");
-    searchTanks(JSON.parse(sessionStorage.getItem("searchCriteria")));
+    populateSearchFields(JSON.parse(sessionStorage.getItem("searchCriteria")));
+    searchTanks(JSON.parse(sessionStorage.getItem("response")));
     // removing attribute corresponding to tank details view page to avoid non-consistent results
     sessionStorage.removeItem("searchCriteria");
     sessionStorage.removeItem("tankId");
   }
+};
+
+var populateSearchFields = function(searchCriteria)
+{
+  $("#input-room").val(searchCriteria.roomType);
+  $("#input-type").val(searchCriteria.tankType);
+  $("#input-property").val(searchCriteria.labelType);
 };
 
 var getResponsePromise = (reqUrl,method)=>$.ajax({url:reqUrl,type:method,async:false});
@@ -54,7 +61,7 @@ function getSearchParams()
   return {
 		roomType:$("#input-room").val(),
 		tankType:$("#input-type").val(),
-		labelType:$("#input-property").val(),
+		labelType:$("#input-property").val()
 	};
 }
 var filterTanks=(tanks,searchParams)=>tanks.forEach(tank=>filterTank(tank,searchParams));

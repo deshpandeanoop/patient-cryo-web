@@ -1,12 +1,10 @@
 function onLoad()
 {
-  window.alert("On Load");
   var rooms = JSON.parse(sessionStorage.getItem("response")).rooms;
-  alert(rooms);
-  var tank = rooms.forEach(room=>room.tanks.filter(tank=>tank.id===sessionStorage.getItem("tankId")));
-  alert(tank);
-  renderTankHeader();
-}
+  var tanks =[];
+  rooms.forEach(room=>tanks=tanks.concat(room.tanks));
+  renderTankHeader(tanks.filter(tank=>tank.id==sessionStorage.getItem("tankId"))[0]);
+};
 
 var renderTankHeader = (tank)=>$("#tankHeaderId").append(getDynamicHTML($("#tankHeader-template").html(),{selectedTank:tank}));
 
