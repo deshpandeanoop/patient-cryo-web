@@ -19,15 +19,6 @@ var populateSearchFields = function(searchCriteria)
   $("#input-property").val(searchCriteria.labelType);
 };
 
-var getResponsePromise = (reqUrl,method)=>$.ajax({url:reqUrl,type:method,async:false});
-
-// can also be replaced with closure or modular design pattern
-const cryoMasterUrls = {
-  hostUrl:"http://localhost:8081/cm-cryo-service",
-  allTanks:"/loadApp",
-  getAllTanksUrl :()=>cryoMasterUrls.hostUrl+cryoMasterUrls.allTanks
-};
-Object.freeze(cryoMasterUrls);
 
 function renderCryoMaster(response)
 {
