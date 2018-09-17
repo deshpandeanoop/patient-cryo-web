@@ -53,20 +53,22 @@
           <div class="form-row mb-3">
             <div class="col">
               <label for="input-name">Reg. No.</label>
-              <input type="text" class="form-control form-control-sm" id="input-name" placeholder="">
+              <input type="text" class="form-control form-control-sm" id="input-reg_id" placeholder="">
             </div>
 			<div class="col">
               <label for="input-husband">Patient <span id="input-husband-error" class="text-danger"></span></label>
               <input type="text" class="form-control form-control-sm" id="input-wife-nric" placeholder="Search: Name, NRIC, HRN" autofocus="">
             </div>
 
-            <div class="col">
+            <div class="col" id="doctorsDropDown">
               <label for="input-doctor">Doctor</label>
-              <select id="input-doctor" class="form-control form-control-sm">
-                <option selected="">All</option>
-                <option>Dr Jeremy Tan</option>
-                <option>Dr Nicholas Tay</option>
-              </select>
+              <script id="doctorsDropDown-template" type="text/x-handlebars-template">
+                <select id="input-doctor" class="form-control form-control-sm">
+                  {{#each doctors}}
+                    <option value="{{id}}">{{name}}</option>
+                  {{/each}}
+                </select>
+              </script>
             </div>
             <div class="col">
               <label for="input-freeze">Date of Freeze</label>
@@ -79,7 +81,7 @@
             </div>
             <div class="col">
               <label for="input-search">&nbsp;</label>
-              <div><button type="button" class="btn btn-primary btn-sm">Search</button></div>
+              <div><button type="button" class="btn btn-primary btn-sm" onclick="search()">Search</button></div>
             </div>
           </div>
         </form>
@@ -87,333 +89,58 @@
     </div>
   </div>
 
-  <div id="main-table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><div class="dataTables_scroll"><div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;"><div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1219px; padding-right: 0px;"><table class="table table-hover table-sm dataTable" style="width: 1219px; margin-left: 0px;" role="grid"><thead>
+  <div id="main-table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+    <div class="row">
+      <div class="col-sm-12 col-md-6"></div>
+      <div class="col-sm-12 col-md-6"></div>
+    </div>
+    <div class="row">
+    <div class="col-sm-12">
+      <div class="dataTables_scroll">
+      <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+        <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1219px; padding-right: 0px;">
+    <table class="table table-hover table-sm dataTable" style="width: 1219px; margin-left: 0px;" role="grid"><thead>
     <tr role="row"><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 73.8125px;">Lvl</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 240.812px;">Name</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 171.812px;">HRN No.</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 229.812px;">Doctor</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 262.812px;">Date of Freeze</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 94.8125px;">Can</th></tr>
-  </thead></table></div></div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; height: calc(100vh - 400px); width: 100%;"><table id="main-table" class="table table-hover table-sm dataTable" style="width: 100%;" role="grid" aria-describedby="main-table_info"><thead>
-    <tr role="row" style="height: 0px;"><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 73.8125px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Lvl</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 240.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Name</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 171.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">HRN No.</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 229.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Doctor</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 262.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Date of Freeze</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 94.8125px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Can</div></th></tr>
-  </thead><tfoot>
+  </thead></table>
+        </div>
+      </div>
+<div id="canistersDetail" class="dataTables_scrollBody" style="position: relative; overflow: auto; height: calc(100vh - 400px); width: 100%;">
+<script id="canisters-template" type="text/x-handlebars-template">
+  <table id="main-table" class="table table-hover table-sm dataTable" style="width: 100%;" role="grid" aria-describedby="main-table_info">
+  <thead>
+    <tr role="row" style="height: 0px;">
+    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 73.8125px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Lvl</div></th>
+    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 240.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Name</div></th>
+    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 171.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">HRN No.</div></th>
+    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 229.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Doctor</div></th>
+    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 262.812px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Date of Freeze</div></th>
+    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 94.8125px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Can</div></th>
+    </tr>
+  </thead>
+  <tfoot>
     <tr style="height: 0px;"><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 89.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Lvl</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 256.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Name</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 187.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">HRN No.</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 245.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Doctor</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 278.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Date of Freeze</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 110.625px;"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Can</div></th></tr>
   </tfoot>
-
   <tbody>
-      <tr class="group group-start"><td colspan="6">Can 1</td></tr><tr class="selected odd" role="row">
-      <td>1</td>
-      <td>John Wong</td>
-      <td>S2234567B</td>
-      <td>Dr Jeremy Tan</td>
+    {{#each canisters}}
+      <tr class="group group-start">
+        <td colspan="6">{{name}}</td>
+      </tr>
+      {{#each levels}}
+      <tr class="odd selected" role="row" onclick="showDetailsOnCard({{canisterNumber}},{{levelNumber}})">
+      <td>{{levelNumber}}</td>
+      <td>{{patient.name}}</td>
+      <td>{{patient.hrn}}</td>
+      <td>{{patient.clinician.name}}</td>
       <td>01/04/2018</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="even">
-      <td>2</td>
-      <td>Mohamed Azri</td>
-      <td>G1217882A</td>
-      <td>Dr Nicholas Tay</td>
-      <td>12/04/2018</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="odd">
-      <td>3</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="even">
-      <td>4</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="odd">
-      <td>5</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="even">
-      <td>6</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="odd">
-      <td>7</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="even">
-      <td>8</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="odd">
-      <td>9</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="even">
-      <td>10</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="odd">
-      <td>11</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="even">
-      <td>12</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="odd">
-      <td>13</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="even">
-      <td>14</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr role="row" class="odd">
-      <td>15</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 1</td>
-    </tr><tr class="group group-start"><td colspan="6">Can 2</td></tr><tr role="row" class="even">
-      <td>1</td>
-      <td>Linden Surendra</td>
-      <td>S0123475B</td>
-      <td>Dr Roy Ezra</td>
-      <td>05/04/2018</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="odd">
-      <td>2</td>
-      <td>Roddy Jitendra</td>
-      <td>G1214313A</td>
-      <td>Dr Nicholas Tay</td>
-      <td>08/04/2018</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="even">
-      <td>4</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="odd">
-      <td>5</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="even">
-      <td>6</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="odd">
-      <td>7</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="even">
-      <td>8</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="odd">
-      <td>9</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="even">
-      <td>10</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="odd">
-      <td>11</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="even">
-      <td>12</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="odd">
-      <td>13</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="even">
-      <td>14</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="odd">
-      <td>15</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 2</td>
-    </tr><tr role="row" class="even">
-      <td>3</td>
-      <td>Warren Wright</td>
-      <td>G4567890A</td>
-      <td>Dr Nicholas Tay</td>
-      <td>08/04/2018</td>
-      <td>Can 2</td>
-    </tr><tr class="group group-start"><td colspan="6">Can 3</td></tr><tr role="row" class="odd">
-      <td>1</td>
-      <td>Mahavir Cliff</td>
-      <td>S2234567B</td>
-      <td>Dr Jeremy Tan</td>
-      <td>20/02/2018</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="even">
-      <td>2</td>
-      <td>Georg Taylor</td>
-      <td>G1459882A</td>
-      <td>Dr Jan Roddy</td>
-      <td>01/03/2018</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="odd">
-      <td>3</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="even">
-      <td>4</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="odd">
-      <td>5</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="even">
-      <td>6</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="odd">
-      <td>7</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="even">
-      <td>8</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="odd">
-      <td>9</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="even">
-      <td>10</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="odd">
-      <td>11</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="even">
-      <td>12</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="odd">
-      <td>13</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="even">
-      <td>14</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr><tr role="row" class="odd">
-      <td>15</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>--</td>
-      <td>Can 3</td>
-    </tr></tbody>
-
-  </table></div><div class="dataTables_scrollFoot" style="overflow: hidden; border: 0px; width: 100%;"><div class="dataTables_scrollFootInner" style="width: 1219px; padding-right: 0px;"><table class="table table-hover table-sm dataTable" style="width: 1219px; margin-left: 0px;" role="grid"><tfoot>
+      <td> </td>
+      </tr>
+      {{/each}}
+    {{/each}}
+  </tbody>
+  </table>
+</script>
+</div>
+<div class="dataTables_scrollFoot" style="overflow: hidden; border: 0px; width: 100%;"><div class="dataTables_scrollFootInner" style="width: 1219px; padding-right: 0px;"><table class="table table-hover table-sm dataTable" style="width: 1219px; margin-left: 0px;" role="grid"><tfoot>
     <tr><th rowspan="1" colspan="1" style="width: 89.625px;">Lvl</th><th rowspan="1" colspan="1" style="width: 256.625px;">Name</th><th rowspan="1" colspan="1" style="width: 187.625px;">HRN No.</th><th rowspan="1" colspan="1" style="width: 245.625px;">Doctor</th><th rowspan="1" colspan="1" style="width: 278.625px;">Date of Freeze</th><th rowspan="1" colspan="1" style="width: 110.625px;">Can</th></tr>
   </tfoot></table></div></div></div></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="main-table_info" role="status" aria-live="polite">Showing 1 to 45 of 45 entries</div></div><div class="col-sm-12 col-md-7"></div></div></div>
 </div>
@@ -421,116 +148,65 @@
         <!--button type="button" class="btn btn-outline-secondary btn-sm" id="btn-refresh"><i class="fas fa-sync"></i> Refresh</button-->
       </div>
   <div id="main-card" class="card shadow-2dp mt-3 mb-3 hidden" style="display: block;">
-    <div id="main-card-body" class="card-body">
-    <div class="ribbon blue"><span>Cleared</span></div>
-    <div class="text-strong">Can 1 - Lvl 1</div>
-    <div class="text-right">
-      <small>
-        <div>Created: Jane Tan at 13 Apr 2018 11:22:33 &nbsp; </div>
-      </small>
-    </div>
-    <hr>
-    <table class="table table-hover table-sm table-borderless mt-2">
-    <tbody>
-      <tr>
-        <td class="text-strong">Reg No</td>
-        <td>61234567890</td>
-      </tr>
-      <tr>
-        <td class="text-strong">HRN No.</td>
-        <td>S2234567B</td>
-      </tr>
-      <tr>
-        <td class="text-strong" width="40%">Name</td>
-        <td width="60%">John Wong</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Doctor</td>
-        <td>Dr Jeremy Tan</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Date of Freeze</td>
-        <td>01/04/2018</td>
-      </tr>
-      <tr>
-        <td class="text-strong"># Straw(s) / vials(v)</td>
-        <td>1s</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Goblet</td>
-        <td>G001</td>
-      </tr>
-      <tr>
-        <td class="text-strong">No. of Embryos</td>
-        <td>1</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Remarks</td>
-        <td class="text-multiline">Demo</td>
-      </tr>
-    </tbody>
-    </table>
 
-    <div class="text-right">
-      <!--button class="btn btn-secondary btn-sm" data-action data-delete>Case Details</button-->
-      <!--button class="btn btn-primary btn-sm" data-action data-edit>Edit</button-->
-    </div>
   </div>
-  </div>
+  <script id="card-template" type="text/x-handlebars-template">
+      <div id="main-card-body" class="card-body">
+      <div class="ribbon blue"><span>{{tank.label}}</span></div>
+      <div class="text-strong">{{tank.canister.name}} - Lvl {{tank.canister.level.levelNumber}}</div>
+      <div class="text-right">
+        <small>
+          <div>Created: {{tank.manufacturedDate}} &nbsp; </div>
+        </small>
+      </div>
+      <hr>
+      <table class="table table-hover table-sm table-borderless mt-2">
+      <tbody>
+        <tr>
+          <td class="text-strong">Reg No</td>
+          <td>{{tank.canister.level.patient.registrationId}}</td>
+        </tr>
+        <tr>
+          <td class="text-strong">HRN No.</td>
+          <td>{{tank.canister.level.patient.hrn}}</td>
+        </tr>
+        <tr>
+          <td class="text-strong" width="40%">Name</td>
+          <td width="60%">{{tank.canister.level.patient.name}}</td>
+        </tr>
+        <tr>
+          <td class="text-strong">Doctor</td>
+          <td>{{tank.canister.level.patient.clinician.name}}</td>
+        </tr>
+        <tr>
+          <td class="text-strong">Date of Freeze</td>
+          <td>01/04/2018</td>
+        </tr>
+        <tr>
+          <td class="text-strong">Goblet Color</td>
+          <td>{{tank.canister.level.goblet.color}}</td>
+        </tr>
+        <tr>
+          <td class="text-strong">No. of Straw(s) / vials(v)</td>
+          <td>{{tank.canister.level.strawCount}}{{tank.canister.level.vialCount}}</td>
+        </tr>
+        <tr>
+          <td class="text-strong">No. of Embryos</td>
+          <td>{{tank.canister.level.embryoCount}}</td>
+        </tr>
+        <tr>
+          <td class="text-strong">Remarks</td>
+          <td class="text-multiline">{{tank.canister.level.patient.remarks}}</td>
+        </tr>
+      </tbody>
+      </table>
 
-  <script id="record-view-template" type="text/x-handlebars-template">
-    <div class="ribbon blue"><span>Cleared</span></div>
-    <div class="text-strong">Can 1 - Lvl 1</div>
-    <div class="text-right">
-      <small>
-        <div>Created: Jane Tan at 13 Apr 2018 11:22:33 &nbsp; </div>
-      </small>
+      <div class="text-right">
+        <!--button class="btn btn-secondary btn-sm" data-action data-delete>Case Details</button-->
+        <!--button class="btn btn-primary btn-sm" data-action data-edit>Edit</button-->
+      </div>
     </div>
-    <hr>
-    <table class="table table-hover table-sm table-borderless mt-2">
-    <tbody>
-      <tr>
-        <td class="text-strong">Reg No</td>
-        <td>61234567890</td>
-      </tr>
-      <tr>
-        <td class="text-strong">HRN No.</td>
-        <td>S2234567B</td>
-      </tr>
-      <tr>
-        <td class="text-strong" width="40%">Name</td>
-        <td width="60%">John Wong</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Doctor</td>
-        <td>Dr Jeremy Tan</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Date of Freeze</td>
-        <td>01/04/2018</td>
-      </tr>
-      <tr>
-        <td class="text-strong"># Straw(s) / vials(v)</td>
-        <td>1s</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Goblet</td>
-        <td>G001</td>
-      </tr>
-      <tr>
-        <td class="text-strong">No. of Embryos</td>
-        <td>1</td>
-      </tr>
-      <tr>
-        <td class="text-strong">Remarks</td>
-        <td class="text-multiline">Demo</td>
-      </tr>
-    </tbody>
-    </table>
-    <div class="text-right">
-    </div>
-  </script>
-
+    </script>
   <script id="record-edit-template" type="text/x-handlebars-template">
     <p class="card-text text-strong">
       {{#if id}}

@@ -50,6 +50,10 @@ var searchTanks = (response)=>response.rooms.forEach(room=>filterTanks(room.tank
 function getSearchParams()
 {
   return {
+    reg_id:$("#input-wife-reg_no").val().trim()===''?0:$("#input-wife-reg_no").val(),
+    patientLastName:$("#input-wife-nric").val().trim()===''?'0':$("#input-wife-nric").val(),
+    hrnNumber:"0",
+    nirc:0,
 		roomType:$("#input-room").val(),
 		tankType:$("#input-type").val(),
 		labelType:$("#input-property").val()

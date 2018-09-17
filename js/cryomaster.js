@@ -1,8 +1,5 @@
-var getResponsePromise = (reqUrl,method,data)=>$.ajax({url:reqUrl,type:method,
+var getResponsePromise = (reqUrl,method,data)=>$.ajax({url:reqUrl,type:method,data:data,contentType:'application/json',
   async:false});
-  var getPostResponsePromise = (reqUrl,method,data)=>$.ajax({url:reqUrl,type:method,data:data,
-    crossDomain:true,contentType:"application/json",
-    async:false});
 
 // can also be replaced with closure or modular design pattern
 const cryoMasterUrls = {
